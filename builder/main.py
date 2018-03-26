@@ -26,17 +26,24 @@ import jinja2
               prompt="Package name", help="Project name")
 @click.option("--platform",
               prompt="Platform name", help="xRally platform name")
+@click.option("--author",
+              prompt="Author name", help="Author name")
+@click.option("--author-url", default="http://", help="Author web site")
+@click.option("--description", default="", help="Package descirption")
 @click.option("--path", default="./", help="Root directory of new project.")
 @click.option("--existing/--no-existing", default=False)
-def cli(name, platform, path, existing):
+def cli(name, platform, author, author_url, description, path, existing):
     skeleton = "existing_platform" if existing else "new_platform"
+
+    path = os.path.join(path, "xrally-%s" % name)
+
     shutil.copytree(
         os.path.join(os.path.dirname(os.path.abspath(__file__)),
                      "skeletons", skeleton),
         path
     )
     render_path(path, name)
-    render_content(path, name, platform)
+    render_content(path, name, platform, author, author_url, description)
 
 
 def render_path(path, name):
@@ -55,7 +62,7 @@ def render_path(path, name):
             render_path(new_path, name)
 
 
-def render_content(path, name, platform):
+def render_content(path, name, platform, author, author_url, description):
 
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(os.path.join(path), encoding="utf8"))
@@ -65,7 +72,9 @@ def render_content(path, name, platform):
             with open(os.path.join(root, file_name), "r+") as f:
                 template = f.read()
                 content = env.from_string(template).render(
-                    name=name, platform=platform)
+                    package="xrally_%s" % name, name=name, platform=platform,
+                    author=author, author_url=author_url,
+                    description=description)
                 f.seek(0)
                 f.write(content)
                 f.truncate()

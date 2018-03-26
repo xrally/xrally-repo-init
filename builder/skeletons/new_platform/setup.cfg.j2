@@ -1,0 +1,32 @@
+[metadata]
+name = {{package}}
+summary = {{ description|default(package) }}
+description-file = README.rst
+author = {{author}}
+home-page = https://xrally.org
+license = Apache License, Version 2.0
+classifier =
+    Environment :: Linux
+    Intended Audience :: Developers
+    Intended Audience :: Information Technology
+    License :: OSI Approved :: Apache Software License
+    Operating System :: POSIX :: Linux
+    Programming Language :: Python
+    Programming Language :: Python :: 2
+    Programming Language :: Python :: 2.7
+    Programming Language :: Python :: 3
+    Programming Language :: Python :: 3.4
+    Programming Language :: Python :: 3.5
+
+[files]
+packages =
+    {{package}}
+
+
+[entry_points]
+rally_plugins =
+    path={{package}}
+
+[global]
+setup-hooks =
+    pbr.hooks.setup_hook

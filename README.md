@@ -1,3 +1,3 @@
-# xRally Repo Initializer  
+# xRally Plugins Repository Initializer
 
-Init repo for xRally plugins with a single command. 
+Init repository for xRally plugins with a single command.
